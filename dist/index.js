@@ -4045,7 +4045,7 @@ async function run() {
         //   mode: '600'
         // })
         // })
-        await exec.exec(`ssh-add -- ${sshKey}`);
+        await exec.exec(`ssh-add - ${sshKey}`);
         await exec.exec(`echo ${sshKey} > ${SSH_KEY_PATH}`);
         await exec.exec(`chmod 600 ${SSH_KEY_PATH}`);
         await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`);
