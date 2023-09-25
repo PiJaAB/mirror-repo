@@ -1,13 +1,13 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Mirror Repo'
+description: 'Mirror repository content with another account/repository'
+author: 'PiJa AB'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  PRIVATE_SSH_KEY:
+    description: 'Your private ssh key'
     required: true
-    default: '1000'
+    default: ''
 
 # Define your outputs here.
 outputs:
