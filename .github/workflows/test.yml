@@ -18,3 +18,4 @@ jobs:
         id: action_test
         with:
           PRIVATE_SSH_KEY: ${{secrets.PRIVATE_SSH_KEY}}
+          USER_EMAIL: ${{secrets.USER_EMAIL}}

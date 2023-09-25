@@ -3994,6 +3994,7 @@ const fs_1 = __importDefault(__nccwpck_require__(147));
 const child_process_1 = __importDefault(__nccwpck_require__(81));
 // import { wait } from './wait'
 const PRIVATE_SSH_KEY = 'PRIVATE_SSH_KEY';
+const USER_EMAIL = 'USER_EMAIL';
 const HOST = 'github';
 const USER = 'git';
 const HOST_NAME = 'github.com';
@@ -4017,12 +4018,10 @@ async function run() {
     try {
         await io.mkdirP(SSH_HOME_DIR);
         const sshKey = core.getInput(PRIVATE_SSH_KEY).trim();
-        const authSock = core.getInput('ssh-auth-sock');
-        const sshAgentArgs = authSock && authSock.length > 0 ? ['-a', authSock] : [];
-        core.debug(`SSH Agent Args: ${sshAgentArgs}`);
+        const userEmail = core.getInput(USER_EMAIL).trim();
         // Extract auth socket path and agent pid and set them as job variables
         child_process_1.default
-            .execFileSync('ssh-agent', sshAgentArgs)
+            .execFileSync('ssh-agent', [])
             .toString()
             .split('\n')
             .forEach(function (line) {
@@ -4039,7 +4038,7 @@ async function run() {
         fs_1.default.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG);
         await exec.exec('git fetch --unshallow origin');
         await exec.exec(`git remote add ${REMOTE_NAME} git@github.com:${REMOTE_REPOSITORY}`);
-        await exec.exec('git -c user.name="git" -c user.email="git@github.com" commit -m "Deployment commit" --allow-empty');
+        await exec.exec(`git -c user.name="Sacquer" -c user.email=${userEmail} commit -m "Deployment commit" --allow-empty`);
         await exec.exec(`git push -f ${REMOTE_NAME} main:${REMOTE_BRANCH}`);
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         // core.debug(`Waiting ${ms} milliseconds ...`)
