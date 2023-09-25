@@ -4044,7 +4044,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.gitFetchAndPush = void 0;
 const exec = __importStar(__nccwpck_require__(445));
-const core = __importStar(__nccwpck_require__(434));
 const constants_1 = __nccwpck_require__(151);
 /**
  * Fetch remote repository,
@@ -4053,7 +4052,6 @@ const constants_1 = __nccwpck_require__(151);
  * push to remote
  */
 async function gitFetchAndPush() {
-    core.exportVariable('GIT_DISCOVERY_ACROSS_FILESYSTEM', 1);
     await exec.exec('git fetch --unshallow origin');
     await exec.exec(`git remote add ${constants_1.REMOTE_NAME} git@github.com:${constants_1.REMOTE_REPOSITORY}`);
     await exec.exec(`git -c user.name="Git" -c user.email=${constants_1.USER_EMAIL} commit -m "Deployment commit" --allow-empty`);

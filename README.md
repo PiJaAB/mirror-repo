@@ -49,6 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     name: [NAME_FOR_YOUR_JOB]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: [NAME_OF_ACTION]
         uses: PiJaAB/mirror-repo@v1.1.1 # organisation/repository@tag-version
         id: [ID_FOR_ACTION]
