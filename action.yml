@@ -8,15 +8,14 @@ inputs:
     description: 'Your private ssh key'
     required: true
     default: ''
-  USER_EMAIL:
-    description: 'Email address of user that creates the commit'
+  REMOTE_REPOSITORY:
+    description: 'Repository to sync your content to (organisation/repository)'
     required: true
-    default: 'git@github.com'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+    default: ''
+  REMOTE_BRANCH:
+    description: 'Remote branch to overwrite your content to'
+    required: true
+    default: 'live'
 
 runs:
   using: node20

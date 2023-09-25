@@ -3953,7 +3953,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 757:
+/***/ 151:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -3985,79 +3985,128 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.REMOTE_BRANCH = exports.USER_EMAIL = exports.REMOTE_REPOSITORY = exports.SSH_KEY = exports.SSH_CONFIG = exports.SSH_KEY_PATH = exports.SSH_CONFIG_PATH = exports.SSH_HOME_DIR = exports.HOME_DIR = exports.REMOTE_NAME = exports.REMOTE_BRANCH_INPUT = exports.REMOTE_REPOSITORY_INPUT = exports.HOST_NAME = exports.USER = exports.HOST = exports.USER_EMAIL_INPUT = exports.PRIVATE_SSH_KEY_INPUT = void 0;
+const core = __importStar(__nccwpck_require__(434));
+const os_1 = __importDefault(__nccwpck_require__(37));
+exports.PRIVATE_SSH_KEY_INPUT = 'PRIVATE_SSH_KEY';
+exports.USER_EMAIL_INPUT = 'USER_EMAIL';
+exports.HOST = 'github';
+exports.USER = 'git';
+exports.HOST_NAME = 'github.com';
+exports.REMOTE_REPOSITORY_INPUT = 'REMOTE_REPOSITORY';
+exports.REMOTE_BRANCH_INPUT = 'REMOTE_BRANCH';
+exports.REMOTE_NAME = 'live';
+exports.HOME_DIR = os_1.default.homedir();
+exports.SSH_HOME_DIR = `${exports.HOME_DIR}/.ssh`;
+exports.SSH_CONFIG_PATH = `${exports.SSH_HOME_DIR}/config`;
+exports.SSH_KEY_PATH = `${exports.SSH_HOME_DIR}/id_ed25519`;
+exports.SSH_CONFIG = `\nHost ${exports.HOST}\n` +
+    `    User ${exports.USER}\n` +
+    `    HostName ${exports.HOST_NAME}\n` +
+    `    IdentityFile ${exports.SSH_KEY_PATH}\n` +
+    `    IdentitiesOnly yes\n`;
+exports.SSH_KEY = core.getInput(exports.PRIVATE_SSH_KEY_INPUT).trim();
+exports.REMOTE_REPOSITORY = core.getInput(exports.REMOTE_REPOSITORY_INPUT).trim();
+exports.USER_EMAIL = core.getInput(exports.USER_EMAIL_INPUT).trim();
+exports.REMOTE_BRANCH = core.getInput(exports.REMOTE_BRANCH_INPUT).trim();
+
+
+/***/ }),
+
+/***/ 538:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.gitFetchAndPush = void 0;
+const exec = __importStar(__nccwpck_require__(445));
+const constants_1 = __nccwpck_require__(151);
+/**
+ * Fetch remote repository,
+ * add remote,
+ * create empty commit,
+ * push to remote
+ */
+async function gitFetchAndPush() {
+    // await exec.exec('git fetch --unshallow origin')
+    await exec.exec(`git remote add ${constants_1.REMOTE_NAME} git@github.com:${constants_1.REMOTE_REPOSITORY}`);
+    await exec.exec(`git -c user.name="Git" -c user.email=${constants_1.USER_EMAIL} commit -m "Deployment commit" --allow-empty`);
+    await exec.exec(`git push -f ${constants_1.REMOTE_NAME} main:${constants_1.REMOTE_BRANCH}`);
+}
+exports.gitFetchAndPush = gitFetchAndPush;
+
+
+/***/ }),
+
+/***/ 757:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(434));
 const io = __importStar(__nccwpck_require__(835));
-const exec = __importStar(__nccwpck_require__(445));
-const os_1 = __importDefault(__nccwpck_require__(37));
-const fs_1 = __importDefault(__nccwpck_require__(147));
-const child_process_1 = __importDefault(__nccwpck_require__(81));
-// import { wait } from './wait'
-const PRIVATE_SSH_KEY = 'PRIVATE_SSH_KEY';
-const USER_EMAIL = 'USER_EMAIL';
-const HOST = 'Sacquer';
-const USER = 'git';
-const HOST_NAME = 'github.com';
-const HOME_DIR = os_1.default.homedir();
-const SSH_HOME_DIR = `${HOME_DIR}/.ssh`;
-const SSH_CONFIG_PATH = `${SSH_HOME_DIR}/config`;
-const SSH_KEY_PATH = `${SSH_HOME_DIR}/id_ed25519`;
-const SSH_CONFIG = `\nHost ${HOST}\n` +
-    `    User ${USER}\n` +
-    `    HostName ${HOST_NAME}\n` +
-    `    IdentityFile ${SSH_KEY_PATH}\n` +
-    `    IdentitiesOnly yes\n`;
-const REMOTE_NAME = 'live';
-const REMOTE_BRANCH = 'test';
-const REMOTE_REPOSITORY = 'Sacquer/isr-example-sync';
+const constants_1 = __nccwpck_require__(151);
+const sshAgent_1 = __nccwpck_require__(56);
+const gitInstructions_1 = __nccwpck_require__(538);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
     try {
-        await io.mkdirP(SSH_HOME_DIR);
-        const sshKey = core.getInput(PRIVATE_SSH_KEY).trim();
-        const userEmail = core.getInput(USER_EMAIL).trim();
-        child_process_1.default.execFile;
-        // Extract auth socket path and agent pid and set them as job variables
-        child_process_1.default
-            .execFileSync('ssh-agent', [])
-            .toString()
-            .split('\n')
-            .forEach(function (line) {
-            core.debug(`Line: ${line}`);
-            const matches = /^(SSH_AUTH_SOCK|SSH_AGENT_PID)=(.*); export \1/.exec(line);
-            if (matches && matches.length > 0) {
-                // This will also set process.env accordingly, so changes take effect for this script
-                core.exportVariable(matches[1], matches[2]);
-                core.debug(`${matches[1]}=${matches[2]}`);
-            }
-        });
-        core.debug('Adding private key(s) to agent');
-        // fs.writeFileSync(SSH_KEY_PATH, sshKey, { mode: "600" })
-        fs_1.default.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG);
-        // sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
-        child_process_1.default.execFileSync('ssh-add', ['-'], {
-            input: sshKey + '\n'
-        });
-        fs_1.default.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
-            mode: '600'
-        });
-        // })
-        await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`);
-        await exec.exec('git fetch --unshallow origin');
-        await exec.exec(`git remote add ${REMOTE_NAME} git@github.com:${REMOTE_REPOSITORY}`);
-        await exec.exec(`git -c user.name="Sacquer" -c user.email=${userEmail} commit -m "Deployment commit" --allow-empty`);
-        await exec.exec(`git push -f ${REMOTE_NAME} main:${REMOTE_BRANCH}`);
-        // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        // core.debug(`Waiting ${ms} milliseconds ...`)
-        // Log the current timestamp, wait, then log the new timestamp
-        // core.debug(new Date().toTimeString())
-        // await wait(parseInt(ms, 10))
-        // core.debug(new Date().toTimeString())
-        // Set outputs for other workflow steps to use
-        // core.setOutput('time', new Date().toTimeString())
+        await io.mkdirP(constants_1.SSH_HOME_DIR);
+        (0, sshAgent_1.startSshAgent)();
+        (0, sshAgent_1.startSshKeyVerification)();
+        await (0, gitInstructions_1.gitFetchAndPush)();
     }
     catch (error) {
         // Fail the workflow run if an error occurs
@@ -4066,6 +4115,89 @@ async function run() {
     }
 }
 exports.run = run;
+
+
+/***/ }),
+
+/***/ 56:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.startSshKeyVerification = exports.startSshAgent = void 0;
+const core = __importStar(__nccwpck_require__(434));
+const exec = __importStar(__nccwpck_require__(445));
+const fs_1 = __importDefault(__nccwpck_require__(147));
+const child_process_1 = __importDefault(__nccwpck_require__(81));
+const constants_1 = __nccwpck_require__(151);
+/**
+ * Starts the ssh-agent and export env variables for `SSH_AUTH_SOCK` and `SSH_AGENT_PID`
+ */
+function startSshAgent() {
+    // https://github.com/webfactory/ssh-agent
+    // Extract auth socket path and agent pid and set them as job variables
+    child_process_1.default
+        .execFileSync('ssh-agent', [])
+        .toString()
+        .split('\n')
+        .forEach(function (line) {
+        const matches = /^(SSH_AUTH_SOCK|SSH_AGENT_PID)=(.*); export \1/.exec(line);
+        if (matches && matches.length > 0) {
+            // This will also set process.env accordingly, so changes take effect for this script
+            // SSH_AUTH_SOCK=/tmp/ssh-XXXXXXNtl7Mb/agent.38
+            // SSH_AGENT_PID=41
+            core.exportVariable(matches[1], matches[2]);
+            core.debug(`${matches[1]}=${matches[2]}`);
+        }
+    });
+}
+exports.startSshAgent = startSshAgent;
+/**
+ * Create config, ssh-key and add key to ssh-agent
+ */
+async function startSshKeyVerification() {
+    core.debug('Adding private key(s) to agent');
+    // Create config in ~/.ssh
+    fs_1.default.appendFileSync(constants_1.SSH_CONFIG_PATH, constants_1.SSH_CONFIG);
+    // Add ssh key to ssh agent
+    child_process_1.default.execFileSync('ssh-add', ['-'], {
+        input: constants_1.SSH_KEY + '\n'
+    });
+    // Write ssh key to [SSH_KEY_PATH]
+    fs_1.default.writeFileSync(`${constants_1.SSH_KEY_PATH}`, constants_1.SSH_KEY, {
+        mode: '600'
+    });
+    // Retrieve the public key of an SSH server
+    await exec.exec(`ssh-keyscan github.com >> ${constants_1.SSH_HOME_DIR}/known_hosts`);
+}
+exports.startSshKeyVerification = startSshKeyVerification;
 
 
 /***/ }),
