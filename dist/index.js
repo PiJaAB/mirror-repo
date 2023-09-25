@@ -4052,7 +4052,7 @@ const constants_1 = __nccwpck_require__(151);
  * push to remote
  */
 async function gitFetchAndPush() {
-    await exec.exec('git fetch --unshallow origin');
+    // await exec.exec('git fetch --unshallow origin')
     await exec.exec(`git remote add ${constants_1.REMOTE_NAME} git@github.com:${constants_1.REMOTE_REPOSITORY}`);
     await exec.exec(`git -c user.name="Git" -c user.email=${constants_1.USER_EMAIL} commit -m "Deployment commit" --allow-empty`);
     await exec.exec(`git push -f ${constants_1.REMOTE_NAME} main:${constants_1.REMOTE_BRANCH}`);
