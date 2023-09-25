@@ -38,7 +38,7 @@ export async function run(): Promise<void> {
   try {
     await io.mkdirP(SSH_HOME_DIR)
 
-    const sshKey: string = core.getInput(PRIVATE_SSH_KEY).trim() + '\n'
+    const sshKey: string = core.getInput(PRIVATE_SSH_KEY).trim()
     const userEmail: string = core.getInput(USER_EMAIL).trim()
 
     child_process.execFile
@@ -66,18 +66,13 @@ export async function run(): Promise<void> {
     fs.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG)
 
     // sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
-    // child_process.execFileSync('ssh-add', ['-'], {
-    //   input: sshKey + '\n'
+    child_process.execFileSync('ssh-add', ['-'], {
+      input: sshKey + '\n'
+    })
+    fs.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
+      mode: '600'
+    })
     // })
-    // fs.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
-    //   mode: '600'
-    // })
-    // })
-
-    // await exec.exec(`ssh-add -- ${sshKey}`)
-    await exec.exec(`echo ${sshKey} > ${SSH_KEY_PATH}`)
-    await exec.exec(`ssh-add`, [], { input: Buffer.from(sshKey, 'utf8') })
-    await exec.exec(`chmod 600 ${SSH_KEY_PATH}`)
 
     await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`)
 
