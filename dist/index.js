@@ -4019,6 +4019,7 @@ async function run() {
         await io.mkdirP(SSH_HOME_DIR);
         const sshKey = core.getInput(PRIVATE_SSH_KEY).trim();
         const userEmail = core.getInput(USER_EMAIL).trim();
+        child_process_1.default.execFile;
         // Extract auth socket path and agent pid and set them as job variables
         child_process_1.default
             .execFileSync('ssh-agent', [])
@@ -4036,14 +4037,14 @@ async function run() {
         core.debug('Adding private key(s) to agent');
         // fs.writeFileSync(SSH_KEY_PATH, sshKey, { mode: "600" })
         fs_1.default.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG);
-        sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
-            child_process_1.default.execFileSync('ssh-add', ['-'], {
-                input: key.trim() + '\n'
-            });
-            fs_1.default.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
-                mode: '600'
-            });
+        // sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
+        child_process_1.default.execFileSync('ssh-add', ['-'], {
+            input: sshKey
         });
+        fs_1.default.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
+            mode: '600'
+        });
+        // })
         await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`);
         await exec.exec('git fetch --unshallow origin');
         await exec.exec(`git remote add ${REMOTE_NAME} git@github.com:${REMOTE_REPOSITORY}`);

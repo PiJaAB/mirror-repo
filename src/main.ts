@@ -41,6 +41,7 @@ export async function run(): Promise<void> {
     const sshKey: string = core.getInput(PRIVATE_SSH_KEY).trim()
     const userEmail: string = core.getInput(USER_EMAIL).trim()
 
+    child_process.execFile
     // Extract auth socket path and agent pid and set them as job variables
     child_process
       .execFileSync('ssh-agent', [])
@@ -64,14 +65,14 @@ export async function run(): Promise<void> {
     // fs.writeFileSync(SSH_KEY_PATH, sshKey, { mode: "600" })
     fs.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG)
 
-    sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
-      child_process.execFileSync('ssh-add', ['-'], {
-        input: key.trim() + '\n'
-      })
-      fs.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
-        mode: '600'
-      })
+    // sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
+    child_process.execFileSync('ssh-add', ['-'], {
+      input: sshKey
     })
+    fs.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
+      mode: '600'
+    })
+    // })
 
     await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`)
 
