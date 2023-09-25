@@ -4036,6 +4036,7 @@ async function run() {
         core.debug('Adding private key(s) to agent');
         fs_1.default.writeFileSync(SSH_KEY_PATH, sshKey, { mode: 600 });
         fs_1.default.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG);
+        await exec.exec(`ssh-add ${SSH_KEY_PATH}`);
         await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`);
         await exec.exec('git fetch --unshallow origin');
         await exec.exec(`git remote add ${REMOTE_NAME} git@github.com:${REMOTE_REPOSITORY}`);
