@@ -64,17 +64,15 @@ export async function run(): Promise<void> {
     // fs.writeFileSync(SSH_KEY_PATH, sshKey, { mode: "600" })
     fs.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG)
 
-    // sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
-    //   child_process.execFileSync('ssh-add', ['-'], {
-    //     input: key.trim() + '\n'
-    //   })
-    //   fs.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
-    //     mode: '600'
-    //   })
-    // })
+    sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
+      child_process.execFileSync('ssh-add', ['-'], {
+        input: key.trim() + '\n'
+      })
+      fs.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
+        mode: '600'
+      })
+    })
 
-    await exec.exec(`ssh-add <<<`, [sshKey])
-    fs.writeFileSync(SSH_KEY_PATH, sshKey, { mode: '600' })
     await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`)
 
     await exec.exec('git fetch --unshallow origin')
