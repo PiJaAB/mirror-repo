@@ -74,7 +74,7 @@ export async function run(): Promise<void> {
     // })
     // })
 
-    await exec.exec(`ssh-add ${sshKey}`)
+    await exec.exec(`ssh-add -- ${sshKey}`)
     await exec.exec(`echo ${sshKey} > ${SSH_KEY_PATH}`)
     await exec.exec(`chmod 600 ${SSH_KEY_PATH}`)
 
