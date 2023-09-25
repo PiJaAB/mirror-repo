@@ -50,7 +50,7 @@ jobs:
     name: [NAME_FOR_YOUR_JOB]
     steps:
       - name: [NAME_OF_ACTION]
-        uses: ./ # Uses an action in the root directory
+        uses: PiJaAB/mirror-repo@v1.1.1 # organisation/repository@tag-version
         id: [ID_FOR_ACTION]
         with:
           PRIVATE_SSH_KEY: ${{secrets.PRIVATE_SSH_KEY}}
