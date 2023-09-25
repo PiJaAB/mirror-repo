@@ -4047,7 +4047,7 @@ async function run() {
         // })
         // await exec.exec(`ssh-add -- ${sshKey}`)
         await exec.exec(`echo ${sshKey} > ${SSH_KEY_PATH}`);
-        await exec.exec(`ssh-add`, [SSH_KEY_PATH]);
+        await exec.exec(`ssh-add`, [], { input: Buffer.from(sshKey, 'utf8') });
         await exec.exec(`chmod 600 ${SSH_KEY_PATH}`);
         await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`);
         await exec.exec('git fetch --unshallow origin');
