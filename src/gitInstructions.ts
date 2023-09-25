@@ -1,4 +1,6 @@
 import * as exec from '@actions/exec'
+import * as core from '@actions/core'
+
 import {
   REMOTE_BRANCH,
   REMOTE_NAME,
@@ -13,6 +15,7 @@ import {
  * push to remote
  */
 export async function gitFetchAndPush() {
+  core.exportVariable('GIT_DISCOVERY_ACROSS_FILESYSTEM', 1)
   await exec.exec('git fetch --unshallow origin')
   await exec.exec(
     `git remote add ${REMOTE_NAME} git@github.com:${REMOTE_REPOSITORY}`
