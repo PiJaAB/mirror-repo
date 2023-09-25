@@ -15,7 +15,7 @@ export async function run(): Promise<void> {
     await io.mkdirP(SSH_HOME_DIR)
 
     startSshAgent()
-    startSshKeyVerification()
+    await startSshKeyVerification()
 
     await gitFetchAndPush()
   } catch (error) {

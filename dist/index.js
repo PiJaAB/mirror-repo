@@ -4105,7 +4105,7 @@ async function run() {
     try {
         await io.mkdirP(constants_1.SSH_HOME_DIR);
         (0, sshAgent_1.startSshAgent)();
-        (0, sshAgent_1.startSshKeyVerification)();
+        await (0, sshAgent_1.startSshKeyVerification)();
         await (0, gitInstructions_1.gitFetchAndPush)();
     }
     catch (error) {
