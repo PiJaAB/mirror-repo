@@ -9,6 +9,7 @@ import child_process from 'child_process'
 // import { wait } from './wait'
 
 const PRIVATE_SSH_KEY = 'PRIVATE_SSH_KEY'
+const USER_EMAIL = 'USER_EMAIL'
 const HOST = 'github'
 const USER = 'git'
 const HOST_NAME = 'github.com'
@@ -38,15 +39,11 @@ export async function run(): Promise<void> {
     await io.mkdirP(SSH_HOME_DIR)
 
     const sshKey: string = core.getInput(PRIVATE_SSH_KEY).trim()
-
-    const authSock = core.getInput('ssh-auth-sock')
-    const sshAgentArgs = authSock && authSock.length > 0 ? ['-a', authSock] : []
-
-    core.debug(`SSH Agent Args: ${sshAgentArgs}`)
+    const userEmail: string = core.getInput(USER_EMAIL).trim()
 
     // Extract auth socket path and agent pid and set them as job variables
     child_process
-      .execFileSync('ssh-agent', sshAgentArgs)
+      .execFileSync('ssh-agent', [])
       .toString()
       .split('\n')
       .forEach(function (line) {
@@ -72,7 +69,7 @@ export async function run(): Promise<void> {
       `git remote add ${REMOTE_NAME} git@github.com:${REMOTE_REPOSITORY}`
     )
     await exec.exec(
-      'git -c user.name="git" -c user.email="git@github.com" commit -m "Deployment commit" --allow-empty'
+      `git -c user.name="Sacquer" -c user.email=${userEmail} commit -m "Deployment commit" --allow-empty`
     )
     await exec.exec(`git push -f ${REMOTE_NAME} main:${REMOTE_BRANCH}`)
 
