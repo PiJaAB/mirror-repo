@@ -10,7 +10,7 @@ jobs:
     name: Job to test the action
     steps:
       - name: Action Test
-        uses: PiJaAB/mirror-repo
+        uses: PiJaAB/mirror-repo@v1.0
         id: action_test
         with:
           PRIVATE_SSH_KEY: ${{secrets.PRIVATE_SSH_KEY}}
