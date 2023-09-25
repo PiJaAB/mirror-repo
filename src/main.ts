@@ -67,7 +67,7 @@ export async function run(): Promise<void> {
 
     // sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
     child_process.execFileSync('ssh-add', ['-'], {
-      input: sshKey
+      input: sshKey + '\n'
     })
     fs.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
       mode: '600'
