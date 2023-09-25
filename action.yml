@@ -8,6 +8,10 @@ inputs:
     description: 'Your private ssh key'
     required: true
     default: ''
+  USER_EMAIL:
+    description: 'Email address of user that creates the commit'
+    required: true
+    default: 'git@github.com'
 
 # Define your outputs here.
 outputs:
