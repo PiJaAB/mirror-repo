@@ -10,14 +10,14 @@ import child_process from 'child_process'
 
 const PRIVATE_SSH_KEY = 'PRIVATE_SSH_KEY'
 const USER_EMAIL = 'USER_EMAIL'
-const HOST = 'github'
+const HOST = 'Sacquer'
 const USER = 'git'
 const HOST_NAME = 'github.com'
 
 const HOME_DIR = os.homedir()
 const SSH_HOME_DIR = `${HOME_DIR}/.ssh`
 const SSH_CONFIG_PATH = `${SSH_HOME_DIR}/config`
-const SSH_KEY_PATH = `${SSH_HOME_DIR}/id_rsa`
+const SSH_KEY_PATH = `${SSH_HOME_DIR}/id_ed25519`
 
 const SSH_CONFIG =
   `\nHost ${HOST}\n` +
@@ -63,6 +63,8 @@ export async function run(): Promise<void> {
 
     fs.writeFileSync(SSH_KEY_PATH, sshKey, { mode: 600 })
     fs.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG)
+
+    await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`)
 
     await exec.exec('git fetch --unshallow origin')
     await exec.exec(

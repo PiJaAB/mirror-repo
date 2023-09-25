@@ -3995,13 +3995,13 @@ const child_process_1 = __importDefault(__nccwpck_require__(81));
 // import { wait } from './wait'
 const PRIVATE_SSH_KEY = 'PRIVATE_SSH_KEY';
 const USER_EMAIL = 'USER_EMAIL';
-const HOST = 'github';
+const HOST = 'Sacquer';
 const USER = 'git';
 const HOST_NAME = 'github.com';
 const HOME_DIR = os_1.default.homedir();
 const SSH_HOME_DIR = `${HOME_DIR}/.ssh`;
 const SSH_CONFIG_PATH = `${SSH_HOME_DIR}/config`;
-const SSH_KEY_PATH = `${SSH_HOME_DIR}/id_rsa`;
+const SSH_KEY_PATH = `${SSH_HOME_DIR}/id_ed25519`;
 const SSH_CONFIG = `\nHost ${HOST}\n` +
     `    User ${USER}\n` +
     `    HostName ${HOST_NAME}\n` +
@@ -4036,6 +4036,7 @@ async function run() {
         core.debug('Adding private key(s) to agent');
         fs_1.default.writeFileSync(SSH_KEY_PATH, sshKey, { mode: 600 });
         fs_1.default.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG);
+        await exec.exec(`ssh-keyscan github.com >> ${SSH_HOME_DIR}/known_hosts`);
         await exec.exec('git fetch --unshallow origin');
         await exec.exec(`git remote add ${REMOTE_NAME} git@github.com:${REMOTE_REPOSITORY}`);
         await exec.exec(`git -c user.name="Sacquer" -c user.email=${userEmail} commit -m "Deployment commit" --allow-empty`);
