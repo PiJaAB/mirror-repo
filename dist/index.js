@@ -4039,7 +4039,7 @@ async function run() {
         fs_1.default.appendFileSync(SSH_CONFIG_PATH, SSH_CONFIG);
         // sshKey.split(/(?=-----BEGIN)/).forEach(function (key) {
         child_process_1.default.execFileSync('ssh-add', ['-'], {
-            input: sshKey
+            input: sshKey + '\n'
         });
         fs_1.default.writeFileSync(`${SSH_KEY_PATH}`, sshKey, {
             mode: '600'
