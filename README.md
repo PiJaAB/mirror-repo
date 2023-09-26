@@ -52,7 +52,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: [NAME_OF_ACTION]
-        uses: PiJaAB/mirror-repo@v1.1.1 # organisation/repository@tag-version - see https://github.com/PiJaAB/mirror-repo/tags for latest tag
+        uses: PiJaAB/mirror-repo@v1.1.6 # organisation/repository@tag-version - see https://github.com/PiJaAB/mirror-repo/tags for latest tag
         id: [ID_FOR_ACTION]
         with:
           PRIVATE_SSH_KEY: ${{secrets.PRIVATE_SSH_KEY}}
